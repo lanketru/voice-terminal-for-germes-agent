@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VoiceTerm — Настройка</title>
+<title data-i18n-title="page_title">VoiceTerm — Setup</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh}
-header{background:linear-gradient(135deg,#1e3a5f,#0d2137);padding:24px 32px;border-bottom:1px solid #1e3a5f}
-header h1{font-size:1.6rem;font-weight:700;color:#60a5fa}
-header p{color:#94a3b8;font-size:.9rem;margin-top:4px}
+header{background:linear-gradient(135deg,#1e3a5f,#0d2137);padding:24px 32px;border-bottom:1px solid #1e3a5f;display:flex;justify-content:space-between;align-items:center}
+.header-left h1{font-size:1.6rem;font-weight:700;color:#60a5fa}
+.header-left p{color:#94a3b8;font-size:.9rem;margin-top:4px}
+.lang-switch{display:flex;gap:4px}
+.lang-btn{padding:6px 10px;background:#0f1117;border:1px solid #2d3748;border-radius:6px;color:#94a3b8;font-size:.8rem;cursor:pointer;transition:all .2s}
+.lang-btn:hover{border-color:#3b82f6;color:#e2e8f0}
+.lang-btn.active{background:#1e3a5f;border-color:#3b82f6;color:#60a5fa}
 .container{max-width:800px;margin:0 auto;padding:24px 16px}
 .section{background:#1a1f2e;border:1px solid #2d3748;border-radius:12px;padding:24px;margin-bottom:20px}
 .section h2{font-size:1.1rem;font-weight:600;color:#93c5fd;margin-bottom:16px;display:flex;align-items:center;gap:8px}
@@ -53,121 +57,118 @@ input:focus,select:focus{border-color:#3b82f6}
 </style>
 </head>
 <body>
-<header><h1>🎙 VoiceTerm</h1><p>Настройка голосового терминала</p></header>
+<header>
+  <div class="header-left">
+    <h1>🎙 VoiceTerm</h1>
+    <p data-i18n="header_subtitle">Voice terminal configuration</p>
+  </div>
+  <div class="lang-switch">
+    <button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button>
+    <button class="lang-btn" data-lang="ru" onclick="switchLang('ru')">RU</button>
+    <button class="lang-btn" data-lang="de" onclick="switchLang('de')">DE</button>
+    <button class="lang-btn" data-lang="zh" onclick="switchLang('zh')">中文</button>
+  </div>
+</header>
 <div class="container">
 
+<!-- WiFi -->
 <div class="section" id="sec-wifi">
-  <h2>WiFi</h2>
-  <button class="btn btn-secondary" onclick="scanWifi()" id="btn-scan-wifi">🔍 Найти сети</button>
+  <h2 data-i18n="wifi_title">WiFi</h2>
+  <button class="btn btn-secondary" onclick="scanWifi()" id="btn-scan-wifi" data-i18n="btn_scan_wifi">🔍 Scan Networks</button>
   <ul class="net-list" id="net-list"></ul>
   <div class="form-row hidden" id="wifi-pass-row">
-    <label>Пароль сети <span id="sel-ssid-label" style="color:#60a5fa"></span></label>
-    <input type="password" id="wifi-password" placeholder="Оставьте пустым для открытой сети">
+    <label><span data-i18n="wifi_pass_label">Network password</span> <span id="sel-ssid-label" style="color:#60a5fa"></span></label>
+    <input type="password" id="wifi-password" data-i18n-ph="wifi_pass_ph" placeholder="Leave empty for open network">
   </div>
-  <button class="btn btn-primary hidden" id="btn-wifi-connect" onclick="connectWifi()">🔗 Подключиться</button>
+  <button class="btn btn-primary hidden" id="btn-wifi-connect" onclick="connectWifi()" data-i18n="btn_connect_wifi">🔗 Connect</button>
   <div id="wifi-status"></div>
 </div>
 
+<!-- Audio Channel -->
 <div class="section" id="sec-audio">
-  <h2>Аудиоканал</h2>
+  <h2 data-i18n="audio_title">Audio Channel</h2>
   <div class="radio-group">
-    <label class="radio-label selected" id="lbl-builtin"><input type="radio" name="audio_channel" value="builtin" checked onchange="onAudioChannel(this)"> 🔊 Встроенная карта</label>
-    <label class="radio-label" id="lbl-bluetooth"><input type="radio" name="audio_channel" value="bluetooth" onchange="onAudioChannel(this)"> 🔵 Bluetooth</label>
+    <label class="radio-label selected" id="lbl-builtin"><input type="radio" name="audio_channel" value="builtin" checked onchange="onAudioChannel(this)"> <span data-i18n="builtin_radio">🔊 Built-in</span></label>
+    <label class="radio-label" id="lbl-bluetooth"><input type="radio" name="audio_channel" value="bluetooth" onchange="onAudioChannel(this)"> <span data-i18n="bt_radio">🔵 Bluetooth</span></label>
   </div>
   <div id="builtin-section">
-    <div class="form-row"><label>Устройство вывода</label><select id="sel-output-dev"><option value="">Загрузка...</option></select></div>
-    <div class="form-row"><label>Микрофон</label><select id="sel-input-dev"><option value="">Загрузка...</option></select></div>
-    <button class="btn btn-secondary" onclick="loadDevices()">🔄 Обновить</button>
+    <div class="form-row"><label data-i18n="output_dev_label">Output device</label><select id="sel-output-dev"><option value="" data-i18n="loading">Loading...</option></select></div>
+    <div class="form-row"><label data-i18n="mic_label">Microphone</label><select id="sel-input-dev"><option value="" data-i18n="loading">Loading...</option></select></div>
+    <button class="btn btn-secondary" onclick="loadDevices()" data-i18n="btn_refresh">🔄 Refresh</button>
   </div>
   <div id="bt-section" class="hidden">
-    <button class="btn btn-secondary" onclick="startBtScan()">🔍 Начать поиск</button>
+    <button class="btn btn-secondary" onclick="startBtScan()" data-i18n="btn_scan_bt">🔍 Start Scan</button>
     <ul class="bt-list" id="bt-list"></ul>
     <div id="bt-status"></div>
   </div>
 </div>
 
+<!-- Audio Test -->
 <div class="section hidden" id="sec-audio-test">
-  <h2>Проверка аудио</h2>
+  <h2 data-i18n="audio_test_title">Audio Test</h2>
   <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <button class="btn btn-secondary" onclick="testPlayback()">▶ Тест воспроизведения</button>
-    <button class="btn btn-secondary" onclick="testMic()">🎙 Тест микрофона (3 сек)</button>
+    <button class="btn btn-secondary" onclick="testPlayback()" data-i18n="btn_test_play">▶ Test Playback</button>
+    <button class="btn btn-secondary" onclick="testMic()" data-i18n="btn_test_mic">🎙 Test Mic (3 sec)</button>
   </div>
   <div id="audio-test-status"></div>
 </div>
 
+<!-- Wake Word -->
 <div class="section hidden" id="sec-wakeword">
-  <h2>Обучение ключевому слову</h2>
-  <div class="form-row"><label>Ключевое слово</label><input type="text" id="wakeword-text" placeholder="Например: Компьютер"></div>
-  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:12px">Произнесите ключевое слово 5 раз, нажимая кнопку перед каждым</p>
-  <button class="btn btn-secondary" onclick="recordSample()" id="btn-record-sample">🔴 Записать образец <span id="sample-count">1</span>/5</button>
+  <h2 data-i18n="wakeword_title">Wake Word Training</h2>
+  <div class="form-row"><label data-i18n="wakeword_label">Wake word</label><input type="text" id="wakeword-text" data-i18n-ph="wakeword_ph" placeholder="Example: Computer"></div>
+  <p style="color:#94a3b8;font-size:.85rem;margin-bottom:12px" data-i18n="wakeword_hint">Say the wake word 5 times</p>
+  <button class="btn btn-secondary" onclick="recordSample()" id="btn-record-sample">🔴 <span data-i18n="btn_record_sample">Record Sample</span> <span id="sample-count">1</span>/5</button>
   <div class="progress-bar" style="margin-top:12px"><div class="progress-fill" id="samples-progress" style="width:0%"></div></div>
-  <p class="samples-info" id="samples-info">Записано: 0 / 5</p>
+  <p class="samples-info" id="samples-info">Recorded: 0 / 5</p>
   <div style="display:flex;gap:12px;margin-top:12px">
-    <button class="btn btn-primary" onclick="generateWakeword()" id="btn-gen-ww" disabled>⚙ Сгенерировать модель</button>
-    <button class="btn btn-secondary" onclick="clearSamples()">🗑 Сбросить</button>
+    <button class="btn btn-primary" onclick="generateWakeword()" id="btn-gen-ww" disabled data-i18n="btn_gen_model">⚙ Generate Model</button>
+    <button class="btn btn-secondary" onclick="clearSamples()" data-i18n="btn_reset">🗑 Reset</button>
   </div>
   <div id="wakeword-gen-status"></div>
   <div id="wakeword-test-block" class="hidden" style="margin-top:16px">
-    <button class="btn btn-secondary" onclick="testWakeword()">🎯 Проверить (10 сек)</button>
-    <div class="confidence-bar" style="margin-top:8px"><div class="confidence-fill" id="conf-fill" style="width:0%">0%</div></div>
+    <button class="btn btn-secondary" onclick="testWakeword()" data-i18n="btn_test_ww">🎯 Test (10 sec)</button>
+    <div class="confidence-bar"><div class="confidence-fill" id="conf-fill" style="width:0%">0%</div></div>
     <div id="ww-test-status"></div>
   </div>
 </div>
 
+<!-- Hermes -->
 <div class="section hidden" id="sec-hermes">
-  <h2>Hermes Agent</h2>
-  <div class="form-row"><label>WebSocket URL</label><input type="text" id="hermes-url" placeholder="ws://192.168.1.100:8765"></div>
-  <button class="btn btn-secondary" onclick="checkHermes()">🔌 Проверить соединение</button>
+  <h2 data-i18n="hermes_title">Hermes Agent</h2>
+  <div class="form-row"><label data-i18n="ws_url_label">WebSocket URL</label><input type="text" id="hermes-url" placeholder="ws://192.168.1.100:8765"></div>
+  <button class="btn btn-secondary" onclick="checkHermes()" data-i18n="btn_check_hermes">🔌 Check Connection</button>
   <div id="hermes-status"></div>
 </div>
 
+<!-- System -->
 <div class="section hidden" id="sec-system">
-  <h2>Системные настройки</h2>
+  <h2 data-i18n="system_title">System Settings</h2>
   <div class="row">
-    <div class="form-row"><label>Порог тишины RMS</label><input type="number" id="cfg-rms" value="200" min="50" max="2000"></div>
-    <div class="form-row"><label>Пауза тишины (мс)</label><input type="number" id="cfg-silence-ms" value="1500" min="500" max="5000"></div>
+    <div class="form-row"><label data-i18n="rms_label">Silence RMS</label><input type="number" id="cfg-rms" value="200" min="50" max="2000"></div>
+    <div class="form-row"><label data-i18n="silence_ms_label">Silence ms</label><input type="number" id="cfg-silence-ms" value="1500" min="500" max="5000"></div>
   </div>
   <div class="row">
-    <div class="form-row"><label>Порог уверенности</label><input type="number" id="cfg-threshold" value="0.8" min="0.0" max="1.0" step="0.05"></div>
-    <div class="form-row"><label>Relaxation time (сек)</label><input type="number" id="cfg-relax" value="2.0" min="0.5" max="10" step="0.5"></div>
+    <div class="form-row"><label data-i18n="threshold_label">Threshold</label><input type="number" id="cfg-threshold" value="0.8" min="0" max="1" step="0.05"></div>
+    <div class="form-row"><label data-i18n="relax_label">Relaxation</label><input type="number" id="cfg-relax" value="2.0" min="0.5" max="10" step="0.5"></div>
   </div>
   <div class="row">
-    <div class="form-row"><label>Окно обработки (сек)</label><input type="number" id="cfg-window" value="1.5" min="1.5" max="5" step="0.25"></div>
-    <div class="form-row"><label>Шаг скользящего окна</label><input type="number" id="cfg-slide" value="0.75" min="0.25" max="2" step="0.25"></div>
+    <div class="form-row"><label data-i18n="window_label">Window</label><input type="number" id="cfg-window" value="1.5" min="1.5" max="5" step="0.25"></div>
+    <div class="form-row"><label data-i18n="slide_label">Slide</label><input type="number" id="cfg-slide" value="0.75" min="0.25" max="2" step="0.25"></div>
   </div>
-  <div class="form-row"><label>Модель STT</label>
+  <div class="form-row"><label data-i18n="stt_label">STT Model</label>
     <select id="cfg-stt">
-      <option value="tiny">tiny (быстрее)</option>
-      <option value="base" selected>base (баланс)</option>
-      <option value="small">small (точнее)</option>
+      <option value="tiny" data-i18n="stt_tiny">tiny</option>
+      <option value="base" selected data-i18n="stt_base">base</option>
+      <option value="small" data-i18n="stt_small">small</option>
     </select>
   </div>
-  <div class="form-row"><label class="toggle"><input type="checkbox" id="cfg-beep" checked> Звуковой сигнал при активации</label></div>
-  <button class="btn btn-success" style="margin-top:8px;width:100%" onclick="saveAndLaunch()">✅ Сохранить и запустить</button>
+  <div class="form-row"><label class="toggle"><input type="checkbox" id="cfg-beep" checked> <span data-i18n="beep_label">Beep on activation</span></label></div>
+  <button class="btn btn-success" style="margin-top:8px;width:100%" onclick="saveAndLaunch()" data-i18n="btn_save">✅ Save and Launch</button>
   <div id="save-status"></div>
 </div>
 
 </div>
-<script>
-const state={selectedSsid:'',audioChannel:'builtin',outputDeviceIndex:null,inputDeviceIndex:null,btMac:'',samplesCount:0,referenceFile:'',wakeword:''};
-function status(id,msg,type='info'){const el=document.getElementById(id);if(!el)return;el.className='status '+type;el.textContent=msg;}
-async function api(url,body=null){const opts=body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{method:'GET'};const r=await fetch(url,opts);return r.json();}
-function showSection(id){document.getElementById(id).classList.remove('hidden');}
-async function scanWifi(){const btn=document.getElementById('btn-scan-wifi');btn.textContent='⏳ Сканирование...';btn.disabled=true;try{const data=await api('/api/wifi/scan');const ul=document.getElementById('net-list');ul.innerHTML='';(data.networks||[]).forEach(n=>{const li=document.createElement('li');li.innerHTML=`<span>${n.ssid}</span><span class="signal">📶 ${n.signal}% ${n.security||'Open'}</span>`;li.onclick=()=>selectNetwork(n.ssid,li);ul.appendChild(li);});if(!data.networks.length)ul.innerHTML='<li style="color:#94a3b8;padding:10px">Сети не найдены</li>';}catch(e){status('wifi-status','Ошибка сканирования','err');}btn.textContent='🔍 Найти сети';btn.disabled=false;}
-function selectNetwork(ssid,el){state.selectedSsid=ssid;document.querySelectorAll('#net-list li').forEach(l=>l.classList.remove('selected'));el.classList.add('selected');document.getElementById('sel-ssid-label').textContent=ssid;document.getElementById('wifi-pass-row').classList.remove('hidden');document.getElementById('btn-wifi-connect').classList.remove('hidden');}
-async function connectWifi(){const pw=document.getElementById('wifi-password').value;status('wifi-status','Подключение...','info');const r=await api('/api/wifi/connect',{ssid:state.selectedSsid,password:pw});if(r.status==='ok'){status('wifi-status',r.message,'ok');document.getElementById('sec-wifi').querySelector('h2').classList.add('step-done');showSection('sec-audio');loadDevices();}else{status('wifi-status',r.message||'Ошибка','err');}}
-async function loadDevices(){const data=await api('/api/audio/devices');const outSel=document.getElementById('sel-output-dev');const inSel=document.getElementById('sel-input-dev');outSel.innerHTML=(data.output||[]).map(d=>`<option value="${d.index}">${d.name}</option>`).join('');inSel.innerHTML=(data.input||[]).map(d=>`<option value="${d.index}">${d.name}</option>`).join('');if(data.output.length)state.outputDeviceIndex=data.output[0].index;if(data.input.length)state.inputDeviceIndex=data.input[0].index;showSection('sec-audio-test');}
-function onAudioChannel(radio){state.audioChannel=radio.value;document.querySelectorAll('.radio-label').forEach(l=>l.classList.remove('selected'));radio.closest('.radio-label').classList.add('selected');document.getElementById('builtin-section').classList.toggle('hidden',radio.value!=='builtin');document.getElementById('bt-section').classList.toggle('hidden',radio.value!=='bluetooth');if(radio.value==='builtin')loadDevices();}
-async function testPlayback(){status('audio-test-status','Воспроизведение...','info');const idx=parseInt(document.getElementById('sel-output-dev').value)||null;state.outputDeviceIndex=idx;const r=await api('/api/audio/test_playback',{device_index:idx});status('audio-test-status',r.status==='ok'?'✅ Тест запущен':'❌ Ошибка',r.status);}
-async function testMic(){status('audio-test-status','Запись 3 сек...','info');const idx=parseInt(document.getElementById('sel-input-dev').value)||null;state.inputDeviceIndex=idx;const r=await api('/api/audio/test_mic',{device_index:idx});status('audio-test-status',r.status==='ok'?'✅ Воспроизвожу запись...':'❌ '+r.message,r.status);if(r.status==='ok'){document.getElementById('sec-audio-test').querySelector('h2').classList.add('step-done');showSection('sec-wakeword');showSection('sec-hermes');showSection('sec-system');}}
-function startBtScan(){document.getElementById('bt-list').innerHTML='<li style="color:#94a3b8;padding:10px">⏳ Поиск...</li>';api('/api/bluetooth/scan/start');const evtSrc=new EventSource('/api/bluetooth/scan/devices');evtSrc.onmessage=e=>{const dev=JSON.parse(e.data);if(dev.done){evtSrc.close();return;}const ul=document.getElementById('bt-list');if(ul.querySelector('.placeholder'))ul.innerHTML='';const li=document.createElement('li');li.innerHTML=`<span>${dev.name}<br><small style="color:#64748b">${dev.mac}</small></span><button class="btn btn-secondary" onclick="pairBt('${dev.mac}',this)">Сопрячь</button>`;ul.appendChild(li);};evtSrc.onerror=()=>evtSrc.close();}
-async function pairBt(mac,btn){btn.textContent='⏳ Сопряжение...';btn.disabled=true;const r=await api('/api/bluetooth/pair',{mac});if(r.status==='ok'){state.btMac=mac;status('bt-status','✅ Устройство подключено','ok');showSection('sec-audio-test');showSection('sec-wakeword');showSection('sec-hermes');showSection('sec-system');}else{status('bt-status','❌ Ошибка: '+JSON.stringify(r.details),'err');btn.textContent='Повторить';btn.disabled=false;}}
-async function recordSample(){const ww=document.getElementById('wakeword-text').value.trim();if(!ww){alert('Введите ключевое слово');return;}state.wakeword=ww;const btn=document.getElementById('btn-record-sample');btn.textContent='🔴 Запись 2 сек...';btn.disabled=true;const r=await api('/api/wakeword/record_sample',{device_index:state.inputDeviceIndex});btn.disabled=false;if(r.status==='ok'){state.samplesCount=r.total_samples;document.getElementById('sample-count').textContent=Math.min(state.samplesCount+1,5);document.getElementById('samples-info').textContent=`Записано: ${state.samplesCount} / 5`;document.getElementById('samples-progress').style.width=(state.samplesCount/5*100)+'%';document.getElementById('btn-gen-ww').disabled=state.samplesCount<4;btn.textContent=`🔴 Записать образец ${Math.min(state.samplesCount+1,5)}/5`;}else{alert('Ошибка: '+r.message);btn.textContent=`🔴 Записать образец ${state.samplesCount+1}/5`;}}
-async function clearSamples(){await api('/api/wakeword/clear_samples');state.samplesCount=0;document.getElementById('sample-count').textContent='1';document.getElementById('samples-info').textContent='Записано: 0 / 5';document.getElementById('samples-progress').style.width='0%';document.getElementById('btn-gen-ww').disabled=true;document.getElementById('wakeword-gen-status').textContent='';}
-async function generateWakeword(){const ww=document.getElementById('wakeword-text').value.trim();status('wakeword-gen-status','⚙ Генерация...','info');const r=await api('/api/wakeword/generate',{hotword:ww});if(r.status==='ok'){state.referenceFile=r.reference_file;status('wakeword-gen-status','✅ Модель создана: '+r.reference_file,'ok');document.getElementById('wakeword-test-block').classList.remove('hidden');}else{status('wakeword-gen-status','❌ '+r.message,'err');}}
-function testWakeword(){const ww=document.getElementById('wakeword-text').value.trim();const thr=document.getElementById('cfg-threshold').value||0.8;status('ww-test-status','🎯 Произнесите ключевое слово...','info');const url=`/api/wakeword/test?reference_file=${encodeURIComponent(state.referenceFile)}&hotword=${encodeURIComponent(ww)}&threshold=${thr}`;const es=new EventSource(url);es.onmessage=e=>{const d=JSON.parse(e.data);if(d.done){es.close();status('ww-test-status','Тест завершён','info');return;}if(d.confidence!==undefined){const pct=Math.round(d.confidence*100);document.getElementById('conf-fill').style.width=pct+'%';document.getElementById('conf-fill').textContent=pct+'%';}};es.onerror=()=>es.close();}
-async function checkHermes(){const url=document.getElementById('hermes-url').value.trim();if(!url){alert('Введите URL');return;}status('hermes-status','⏳ Проверка...','info');const r=await api('/api/hermes/check',{url});status('hermes-status',r.message,r.status==='ok'?'ok':'err');}
-async function saveAndLaunch(){const cfg={setup_complete:true,wakeword:state.wakeword||document.getElementById('wakeword-text').value.trim(),reference_file_path:state.referenceFile,hotword_threshold:parseFloat(document.getElementById('cfg-threshold').value),relaxation_time:parseFloat(document.getElementById('cfg-relax').value),window_length_secs:parseFloat(document.getElementById('cfg-window').value),sliding_window_secs:parseFloat(document.getElementById('cfg-slide').value),audio_channel:state.audioChannel,audio_device_index:state.audioChannel==='builtin'?(parseInt(document.getElementById('sel-output-dev').value)||null):null,bluetooth_mac:state.btMac,silence_threshold_rms:parseInt(document.getElementById('cfg-rms').value),silence_duration_ms:parseInt(document.getElementById('cfg-silence-ms').value),beep_enabled:document.getElementById('cfg-beep').checked,hermes_url:document.getElementById('hermes-url').value.trim(),stt_model:document.getElementById('cfg-stt').value,reconnect_interval_sec:1};status('save-status','💾 Сохранение...','info');const r=await api('/api/config/save',cfg);if(r.status==='ok'){status('save-status','✅ Настройки сохранены. Система перезапустится...','ok');setTimeout(()=>location.href='/',3000);}else{status('save-status','❌ '+r.message,'err');}}
-</script>
+<script src="/static/app.js"></script>
 </body>
 </html>
