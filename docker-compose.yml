@@ -1,0 +1,33 @@
+services:
+  voiceterm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: voiceterm:latest
+    container_name: voiceterm
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    devices:
+      - /dev/snd:/dev/snd
+      - /dev/bus/usb:/dev/bus/usb
+      - /dev/input:/dev/input
+    volumes:
+      - voiceterm_config:/root/.voiceterm
+      - /var/run/dbus:/var/run/dbus
+      - /run/user/1000/pulse:/run/user/1000/pulse
+      - /etc/asound.conf:/etc/asound.conf:ro
+      - ./sounds:/opt/voiceterm/sounds:ro
+    environment:
+      PULSE_SERVER: "unix:/run/user/1000/pulse/native"
+      PYTHONUNBUFFERED: "1"
+      TZ: "Europe/Moscow"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  voiceterm_config:
+    driver: local
