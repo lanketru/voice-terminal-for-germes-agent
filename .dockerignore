@@ -24,9 +24,6 @@ htmlcov/
 .gitignore
 ТЗ.md
 docs/
-Dockerfile*
-docker-compose*.yml
-docker/
 *.wav
 !sounds/*.wav
 *.tmp
