@@ -1,0 +1,9 @@
+EfficientWord-Net
+pyaudio
+sounddevice
+numpy
+websockets
+faster-whisper
+flask
+flask-cors
+evdev
