@@ -1,0 +1,18 @@
+[Unit]
+Description=VoiceTerm Voice Assistant
+After=network.target bluetooth.target sound.target
+Wants=bluetooth.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/opt/voiceterm
+ExecStart=/opt/voiceterm/venv/bin/python /opt/voiceterm/main.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
